@@ -124,6 +124,14 @@ public class PostgreSqlDatabaseDialectTest extends BaseDialectTest<PostgreSqlDat
   }
 
   @Test
+  public void shouldBuildWellFormedUpsertStatementWithAllKeyColumnsAndNoNonKeyColumns() {
+    String expected = "INSERT INTO \"myTable\" (\"id1\",\"id2\"" +
+                      ") VALUES (?,?) ON CONFLICT DO NOTHING";
+    String sql = dialect.buildUpsertQueryStatement(tableId, pkColumns, emptyColumns);
+    assertEquals(expected, sql);
+  }
+
+  @Test
   public void createOneColNoPk() {
     verifyCreateOneColNoPk(
         "CREATE TABLE \"myTable\" (" + System.lineSeparator() + "\"col1\" INT NOT NULL)");

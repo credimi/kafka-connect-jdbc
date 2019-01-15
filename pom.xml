@@ -21,7 +21,7 @@
     <parent>
         <groupId>io.confluent</groupId>
         <artifactId>common</artifactId>
-        <version>5.2.0-SNAPSHOT</version>
+        <version>5.1.0</version>
     </parent>
 
     <groupId>io.confluent</groupId>
@@ -457,4 +457,16 @@
             </build>
         </profile>
     </profiles>
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>instapartners-releases</name>
+            <url>https://instapartners.jfrog.io/instapartners/Credimi-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>instapartners-snapshots</name>
+            <url>https://instapartners.jfrog.io/instapartners/Credimi-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

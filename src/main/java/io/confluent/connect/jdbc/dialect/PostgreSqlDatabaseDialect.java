@@ -237,16 +237,21 @@ public class PostgreSqlDatabaseDialect extends GenericDatabaseDialect {
            .of(keyColumns, nonKeyColumns);
     builder.append(") VALUES (");
     builder.appendMultiple(",", "?", keyColumns.size() + nonKeyColumns.size());
-    builder.append(") ON CONFLICT (");
-    builder.appendList()
-           .delimitedBy(",")
-           .transformedBy(ExpressionBuilder.columnNames())
-           .of(keyColumns);
-    builder.append(") DO UPDATE SET ");
-    builder.appendList()
-           .delimitedBy(",")
-           .transformedBy(transform)
-           .of(nonKeyColumns);
+    builder.append(") ON CONFLICT ");
+    if (!keyColumns.isEmpty() && nonKeyColumns.isEmpty()) {
+      builder.append("DO NOTHING");
+    } else {
+      builder.append("(");
+      builder.appendList()
+            .delimitedBy(",")
+            .transformedBy(ExpressionBuilder.columnNames())
+            .of(keyColumns);
+      builder.append(") DO UPDATE SET ");
+      builder.appendList()
+            .delimitedBy(",")
+            .transformedBy(transform)
+            .of(nonKeyColumns);
+    }
     return builder.toString();
   }
 
